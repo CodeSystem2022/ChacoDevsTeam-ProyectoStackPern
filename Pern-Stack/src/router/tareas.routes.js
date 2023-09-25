@@ -1,8 +1,8 @@
-import [ Router ] from "express";
+import {Router} from "express";
 
 const router = Router();
 
-router.get('/tareas',(req, res => res.send('obteniendo tareas')));
+router.get('/tareas',(req, res) => res.send('obteniendo tareas'));
 
 router.get('/tareas/:id',(req, res )=> res.send('obteniendo tarea unica'));
 

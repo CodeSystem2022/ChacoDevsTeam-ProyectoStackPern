@@ -1,11 +1,12 @@
 import express from 'express';
+import morgan from 'morgan';
 import tareasRoutes from "./router/tareas.routes.js"
 
 const app = express();
 //Middlewares
 app.use(morgan("dev"));
 
-app.get('/',(req,res) => res.json({message: 'Bienvenidos a mi primer proyecto'}));
+app.get("/",(req,res) => res.json({message: "Bienvenidos a mi primer proyecto"}));
 app.use("/tareas", tareasRoutes);
 
 //Manejando errores
