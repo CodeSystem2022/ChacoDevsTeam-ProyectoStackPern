@@ -1,11 +1,20 @@
-
+import { pool } from '../db.js';
 export const listarTareas = (req, res) => res.send('obteniendo tareas');
+
+
 
 export const listarTarea = (req, res ) => res.send('obteniendo tarea unica');
 
-export const crearTarea = (req, res) => {
-    console.log(rec.body);
-    res.send('ceando tarea');
+export const crearTarea = async(req, res)=>{
+    const{titulo,descripcion}=req.body;
+    res.send('creando tarea');
+    try {
+        const {rows} = await pool.query('INSERT INTO tareas(titulo, descripcion) VALUES ($1, $2)' ,[titulo,descripcion]);
+    console.log(rows);  
+    } catch (error) {
+       console.log("Algo salió mal") 
+    }
+    
 }
 
 export const actualizarTarea = (req, res) => res.send('actualizando tarea unica');
