@@ -3,7 +3,7 @@ export const listarTareas = (req, res) => res.send('obteniendo tareas');
 
 
 
-export const listarTarea = async (req, res ) => {
+export const listarTarea = async (req, res, next ) => {
     const resultado = await pool.query('SELECT * FROM tareas WHERE id = $1', [req.params.id]);
     if (resultado.rowCount === 0) {
         return res.status(404).json({
@@ -17,11 +17,16 @@ export const crearTarea = async(req, res)=>{
     const{titulo,descripcion}=req.body;
     res.send('creando tarea');
     try {
+        throw new Error('algo salio mal');
         const {rows} = await pool.query('INSERT INTO tareas(titulo, descripcion) VALUES ($1, $2)' ,[titulo,descripcion]);
     console.log(rows);  
     } catch (error) {
-       console.log("Algo salió mal") 
-    }
+        if (error.code === '23505'){
+            return res.send({message:'ya existe una tarea con ese titulo'});
+        }
+       console.log(error);
+       next(error); 
+    } 
     
 }
 
