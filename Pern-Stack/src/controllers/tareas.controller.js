@@ -16,10 +16,11 @@ export const listarTarea = async (req, res, next ) => {
 export const crearTarea = async(req, res)=>{
     const{titulo,descripcion}=req.body;
     res.send('creando tarea');
-    try {
-        throw new Error('algo salio mal');
-        const {rows} = await pool.query('INSERT INTO tareas(titulo, descripcion) VALUES ($1, $2)' ,[titulo,descripcion]);
-    console.log(rows);  
+    try { 
+               
+        const resul = await pool.query('INSERT INTO tareas(titulo, descripcion) VALUES ($1, $2) RETURNING *' ,[titulo,descripcion]);
+        res.json(resul.rows[0]);
+        console.log(resul.rows[0]);
     } catch (error) {
         if (error.code === '23505'){
             return res.send({message:'ya existe una tarea con ese titulo'});
