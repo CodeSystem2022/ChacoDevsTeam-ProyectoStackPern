@@ -15,11 +15,11 @@ export const signup = async(req, res) => {
         
         const token = await createAccsessToken({id: result.rows[0].id});
         console.log(result);
-         //return res.json(result.rows[0]);
-         return res.json({
-            token: token,
-
-         });
+        res.cookie("token", token, {
+            httpOnly: true,
+            sameSite: "none",
+            maxAge: 60 * 60 * 24 * 1000,}) // 1 day
+         return res.json(result.rows[0]);
     } catch (error) {
         if(error.code ==="23505"){
             return res.status(400).json({message: "El correo ya esta registrado"});
