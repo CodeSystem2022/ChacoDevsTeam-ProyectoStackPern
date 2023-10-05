@@ -18,7 +18,7 @@ export const signup = async(req, res) => {
         res.cookie("token", token, {
             httpOnly: true,
             sameSite: "none",
-            maxAge: 60 * 60 * 24 * 1000,}) // 1 day})
+            maxAge: 60 * 60 * 24 * 1000,}) // 1 day
          return res.json(result.rows[0]);
     } catch (error) {
         if(error.code ==="23505"){
