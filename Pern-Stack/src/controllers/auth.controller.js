@@ -1,6 +1,6 @@
 import {pool} from "../db.js"
 import bcrypt from "bcrypt";
-import {createAccsessToken} from "../libs/jwt.js"
+import {createAccessToken} from "../libs/jwt.js"
 
 export const signin = (req, res) => res.send("ingresando");
 
@@ -13,7 +13,7 @@ export const signup = async(req, res) => {
         
         const result = await pool.query("INSERT INTO usuarios (name, email, password) VALUES ($1, $2, $3) RETURNING *", [name, email, hashedPassword]);
         
-        const token = await createAccsessToken({id: result.rows[0].id});
+        const token = await createAccessToken({id: result.rows[0].id});
         console.log(result);
         res.cookie("token", token, {
             httpOnly: true,
@@ -24,10 +24,7 @@ export const signup = async(req, res) => {
         if(error.code ==="23505"){
             return res.status(400).json({message: "El correo ya esta registrado"});
         }
-
     }
-
-
 };
 
 export const signout = (req, res) => res.send("Cerrando sesion");                                           
