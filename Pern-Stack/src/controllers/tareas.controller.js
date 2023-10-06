@@ -1,7 +1,7 @@
 import {pool} from '../db.js';
 
 export const listarTareas = async (req, res) => {
-    console.log(req.headers)
+    console.log(req.cookies.token);
     const resultado = await pool.query('SELECT * FROM tareas');
     return res.json(resultado.rows);  
 }
@@ -29,8 +29,8 @@ export const crearTarea = async(req, res, next) => {
                 message: 'Ya existe una tarea con ese titulo'
             });
         }
-       console.log(error);
-       next(error); 
+    console.log(error);
+    next(error); 
     }  
 }
 
