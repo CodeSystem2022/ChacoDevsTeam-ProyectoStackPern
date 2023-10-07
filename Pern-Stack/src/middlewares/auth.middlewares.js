@@ -8,15 +8,12 @@ export const isAuth = (req, res, next) => {
             message: 'No estas autorizado'
         });
     }
-
     jwt.verify(token, "xyz123", (err, decoded) => {
         if (err) {
             return res.status(401).json({
                 message: 'No estas autorizado'
-                    });
+            });
         }
-        req.userId = decoded.id; //req.usuarioId luego req.userId
-        next();
+        req.usuarioId = decoded.id; //req.usuarioId luego req.userId
     }); 
 };
-
