@@ -1,14 +1,13 @@
 import {pool} from '../db.js';
 
 export const listarTareas = async (req, res) => {
-    console.log(req.cookies.token);
+    console.log(req.usuarioId);
     const resultado = await pool.query('SELECT * FROM tareas');
     return res.json(resultado.rows);  
 }
-
-export const listarTarea = async (req, res) => {
-    const resultado = await pool.query('SELECT * FROM tareas WHERE id = $1', [req.params.id]);
-    if (resultado.rowCount === 0) {
+export const listarTareas = async (req, res) => {
+    cont resultado = await pool.query('SELECT * FROM tareas WHERE id = $1',[req.params.id]);
+    if (resultado.rowCount === 0){
         return res.status(404).json({
             message: 'La tarea no existe'
         });
@@ -17,8 +16,10 @@ export const listarTarea = async (req, res) => {
 }
 
 export const crearTarea = async(req, res, next) => {
-    const{titulo,descripcion}=req.body;
-    res.send('creando tarea');
+    const {titulo,descripcion} = req.body;
+   
+   
+   
     try {          
         const resul = await pool.query('INSERT INTO tareas(titulo, descripcion) VALUES ($1, $2) RETURNING *' ,[titulo,descripcion]);
         res.json(resul.rows[0]);
