@@ -8,7 +8,6 @@ export const isAuth = (req, res, next) => {
             message: 'No estas autorizado'
         });
     }
-
     jwt.verify(token, "xyz123", (err, decoded) => {
         if (err) {
             return res.status(401).json({
