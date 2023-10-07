@@ -17,8 +17,9 @@ export const listarTareas = async (req, res) => {
 
 
 export const crearTarea = async(req, res, next) => {
-    const{titulo,descripcion}=req.body;
-    res.send('creando tarea');
+    const {titulo,descripcion} = req.body;
+    
+   
     try {          
         const resul = await pool.query('INSERT INTO tareas(titulo, descripcion) VALUES ($1, $2) RETURNING *' ,[titulo,descripcion]);
         res.json(resul.rows[0]);
