@@ -12,10 +12,9 @@ export const isAuth = (req, res, next) => {
         if (err) {
             return res.status(401).json({
                 message: 'No estas autorizado'
-            });
+             });
         }
         req.usuarioId = decoded.id; //req.usuarioId luego req.userId
-        next();
     }); 
 };
 
