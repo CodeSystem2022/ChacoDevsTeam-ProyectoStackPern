@@ -25,9 +25,9 @@ export const signin = async (req, res) => {
             maxAge: 60 * 60 * 24 * 1000,}) // 1 day
         return res.json(result.rows[0]);
 
-    }
+}
     
-    export const signup = async(req, res) => {
+    export const signup = async(req, res, next) => {
     const {name , email, password} = req.body;
 
     try {  
@@ -47,10 +47,17 @@ export const signin = async (req, res) => {
         if(error.code ==="23505"){
             return res.status(400).json({message: "El correo ya esta registrado"});
         }
+        next(error);
     }
 };
 
-export const signout = (req, res) => res.send("Cerrando sesion");                                           
+export const signout = (req, res) => {
+    res.clearCookie("token");
+    return res.json({message: "Sesion cerrada"});
+};                                        
 
-export const profile = (req, res) => res.send("Perfil de usuario");
+export const profile = async (req, res) => {
+    const result = await pool.query("SELECT * FROM usuarios WHERE id = $1", [req.usuarioId]);
+    return res.json(result.rows[0]);
+}
 
